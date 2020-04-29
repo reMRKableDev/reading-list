@@ -3,20 +3,20 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
 const book = db.book;
+const readingList = db.readingList;
 
 /* HELPER FUNCTIONS */
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
 
-/* add book to a list */
+/* CREATE */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
-  /* validate incoming data  */
   // check if object is empty
   isEmpty(incomingData) &&
-    res.status(400).send({ message: "Input fields cannot be empty" });
+    res.status(400).send({ message: "Object cannot be empty" });
 
-  // if any of the properties are null or empty
+  // check each property
   if (isObjectPropertyEmpty(incomingData)) {
     res.status(400).send({ message: "Please fill in all the fields" });
   } else {
@@ -28,13 +28,13 @@ router.post("/", (req, res) => {
           readingListId: incomingData.readingListId,
         },
       })
-      .then(([results, created]) =>
+      .then(([results, created]) => {
         created
           ? res.status(200).send(results.dataValues)
           : res.status(409).send({
-              message: "A book with this name already exists",
-            })
-      )
+              message: "A book with this title already exists",
+            });
+      })
       .catch((createErr) => {
         if (createErr) {
           console.error(`Error when creating: ${createErr}`);
@@ -47,13 +47,13 @@ router.post("/", (req, res) => {
       });
   }
 });
-
-/* get all books */
+/* READ ALL BOOKS */
 router.get("/", (req, res) => {
   book
     .findAll()
     .then((results) => {
       const dataValues = results.map((element) => element.dataValues);
+
       dataValues.length > 0
         ? res.status(200).send(dataValues)
         : res
@@ -61,8 +61,8 @@ router.get("/", (req, res) => {
             .send({ message: "There are no books saved at this moment!" });
     })
     .catch((findAllErr) => {
-      if (createErr) {
-        console.error(`Error when finding: ${findAllErr}`);
+      if (findAllErr) {
+        console.error(`Error when finding all: ${findAllErr}`);
 
         res.status(500).send({
           message:
@@ -72,10 +72,42 @@ router.get("/", (req, res) => {
     });
 });
 
-/* GET (one) - Reads one reading list saved in the database */
-router.get("/:id", (req, res) => {
+/* READ ALL BOOKS OF THE SAME LIST */
+router.get("/readList/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
+  } else {
+    book
+      .findAll({ where: { readingListId: req.params.id } })
+      .then((results) => {
+        const dataValues = results.map((element) => element.dataValues);
+
+        dataValues.length > 0
+          ? res.status(200).send(dataValues)
+          : res.status(200).send({
+              message:
+                "There are no books connected to this reading list at this moment!",
+            });
+      })
+      .catch((findAllErr) => {
+        if (findAllErr) {
+          console.error(`Error when finding: ${findAllErr}`);
+
+          res.status(500).send({
+            message:
+              "Sorry! We are currently having server difficulties. Try again later",
+          });
+        }
+      });
+  }
+});
+
+/* READ ONE SPECIFIC */
+router.get("/:id", (req, res) => {
+  if (isNotNumber(req.params.id)) {
+    res
+      .status(400)
+      .send({ message: "The given id was not a number! Please use a number" });
   } else {
     book
       .findOne({ where: { id: req.params.id } })
@@ -97,61 +129,35 @@ router.get("/:id", (req, res) => {
   }
 });
 
-/* GET (books from reading list) - Reads all books from one reading list*/
-router.get("/readList/:id", (req, res) => {
-  if (isNotNumber(req.params.id)) {
-    res.status(400).send({ message: "The given id was not a number!" });
-  } else {
-    book
-      .findAll({ where: { readingListId: req.params.id } })
-      .then((results) => {
-        const dataValues = results.map((element) => element.dataValues);
-        dataValues.length > 0
-          ? res.status(200).send(dataValues)
-          : res.status(200).send({
-              message:
-                "There are no books connected to this reading list at this moment!",
-            });
-      })
-      .catch((findAllErr) => {
-        if (createErr) {
-          console.error(`Error when finding: ${findAllErr}`);
-
-          res.status(500).send({
-            message:
-              "Sorry! We are currently having server difficulties. Try again later",
-          });
-        }
-      });
-  }
-});
-
-/* PUT */
+/* UPDATE BOOK */
 router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
+  // check if object is empty
   isEmpty(incomingData) &&
-    res.status(400).send({ message: "Input fields cannot be empty" });
+    res.status(400).send({ message: "Object cannot be empty" });
 
   if (isObjectPropertyEmpty(incomingData)) {
     res.status(400).send({ message: "Please fill in all the fields" });
   } else if (isNotNumber(req.params.id)) {
-    res.status(400).send({ message: "The given id was not a number!" });
+    res
+      .status(400)
+      .send({ message: "The given id was not a number! Please use a number" });
   } else {
-    // updating the title if title exists in the incomingData
+    // changing title
     incomingData.title &&
       book
         .update({ title: incomingData.title }, { where: { id: req.params.id } })
-        .then((results) =>
+        .then((results) => {
           results[0] === 1
             ? res
                 .status(200)
                 .send({ message: "The book title has been updated" })
-            : res.status(404).send({ message: "Couldn't find that book" })
-        )
+            : res.status(404).send({ message: "Couldn't find that book" });
+        })
         .catch((updateErr) => {
           if (updateErr) {
-            console.error(`Error when updating title: ${updateErr}`);
+            console.error(`Error when updating: ${updateErr}`);
 
             res.status(500).send({
               message:
@@ -160,23 +166,23 @@ router.put("/:id", (req, res) => {
           }
         });
 
-    // updating the author, if author exists in the incomingData
+    // changing author
     incomingData.author &&
       book
         .update(
           { author: incomingData.author },
           { where: { id: req.params.id } }
         )
-        .then((results) =>
+        .then((results) => {
           results[0] === 1
             ? res
                 .status(200)
                 .send({ message: "The book author has been updated" })
-            : res.status(404).send({ message: "Couldn't find that book" })
-        )
+            : res.status(404).send({ message: "Couldn't find that book" });
+        })
         .catch((updateErr) => {
           if (updateErr) {
-            console.error(`Error when updating author: ${updateErr}`);
+            console.error(`Error when updating: ${updateErr}`);
 
             res.status(500).send({
               message:
@@ -185,23 +191,45 @@ router.put("/:id", (req, res) => {
           }
         });
 
-    // updating the readingListId, if readingListId exists in the incomingData
+    // changing readingListId
     incomingData.readingListId &&
-      book
-        .update(
-          { readingListId: incomingData.readingListId },
-          { where: { id: req.params.id } }
-        )
-        .then((results) =>
-          results[0] === 1
-            ? res
-                .status(200)
-                .send({ message: "The book readListId has been updated" })
-            : res.status(404).send({ message: "Couldn't find that book" })
-        )
-        .catch((updateErr) => {
-          if (updateErr) {
-            console.error(`Error when updating readListId: ${updateErr}`);
+      readingList
+        .findOne({ where: { id: incomingData.readingListId } })
+        .then((results) => {
+          if (results === null) {
+            res
+              .status(404)
+              .send({ message: "the reading list id does not exist" });
+          } else {
+            book
+              .update(
+                { readingListId: incomingData.readingListId },
+                { where: { id: req.params.id } }
+              )
+              .then((results) => {
+                results[0] === 1
+                  ? res.status(200).send({
+                      message: "The book readingListId has been updated",
+                    })
+                  : res
+                      .status(404)
+                      .send({ message: "Couldn't find that book" });
+              })
+              .catch((updateErr) => {
+                if (updateErr) {
+                  console.error(`Error when updating: ${updateErr}`);
+
+                  res.status(500).send({
+                    message:
+                      "Sorry! We are currently having server difficulties. Try again later",
+                  });
+                }
+              });
+          }
+        })
+        .catch((findErr) => {
+          if (findErr) {
+            console.error(`Error when updating: ${findErr}`);
 
             res.status(500).send({
               message:
@@ -212,28 +240,20 @@ router.put("/:id", (req, res) => {
   }
 });
 
-/* DELETE (one) - Deletes a book  */
+/* DELETE BOOK */
 router.delete("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
   } else {
     book
       .destroy({ where: { id: req.params.id } })
-      .then((results) =>
+      .then((results) => {
         results === 1
           ? res.status(200).send({ message: "The book has been deleted" })
-          : res.status(404).send({ message: "Couldn't find that book" })
-      )
-      .catch((destroyErr) => {
-        if (destroyErr) {
-          console.error(`Error when deleting: ${destroyErr}`);
-
-          res.status(500).send({
-            message:
-              "Sorry! We are currently having server difficulties. Try again later",
-          });
-        }
-      });
+          : res.status(404).send({ message: "Couldn't find that book" });
+      })
+      .catch();
   }
 });
+
 module.exports = router;
