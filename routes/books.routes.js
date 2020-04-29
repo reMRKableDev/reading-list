@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
 const book = db.book;
-const readList = db.readList;
 
 /* HELPER FUNCTIONS */
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
