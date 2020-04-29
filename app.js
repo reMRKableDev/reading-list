@@ -5,6 +5,7 @@ const { connector } = require("./database/models");
 
 /* IMPORT ROUTES */
 const readingListRouter = require("./routes/readingList.routes");
+const booksRouter = require("./routes/books.routes");
 
 /* INSTANTIATE TO USE EXPRESS METHODS */
 const app = express();
@@ -17,10 +18,10 @@ connector
 
 /* MIDDLEWARE */
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /* SETUP ROUTES */
-app.use("/api/newList", readingListRouter);
+app.use("/api/readList", readingListRouter);
+app.use("/api/books", booksRouter);
 
 module.exports = app;

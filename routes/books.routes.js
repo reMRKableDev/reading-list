@@ -2,12 +2,13 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
-const readingList = db.readingList;
+const book = db.book;
+const readList = db.readList;
 
 /* HELPER FUNCTIONS */
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
 
-/* POST - Creates new reading list */
+/* add book to a list */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
@@ -20,16 +21,19 @@ router.post("/", (req, res) => {
   if (isObjectPropertyEmpty(incomingData)) {
     res.status(400).send({ message: "Please fill in all the fields" });
   } else {
-    readingList
+    book
       .findOrCreate({
-        where: { name: incomingData.name },
-        defaults: { type: incomingData.type },
+        where: { title: incomingData.title },
+        defaults: {
+          author: incomingData.author,
+          readingListId: incomingData.readingListId,
+        },
       })
       .then(([results, created]) =>
         created
           ? res.status(200).send(results.dataValues)
           : res.status(409).send({
-              message: "A reading list with this name already exists",
+              message: "A book with this name already exists",
             })
       )
       .catch((createErr) => {
@@ -45,9 +49,9 @@ router.post("/", (req, res) => {
   }
 });
 
-/* GET (all) - Reads all reading lists saved in the database */
+/* get all books */
 router.get("/", (req, res) => {
-  readingList
+  book
     .findAll()
     .then((results) => {
       const dataValues = results.map((element) => element.dataValues);
@@ -55,10 +59,10 @@ router.get("/", (req, res) => {
         ? res.status(200).send(dataValues)
         : res
             .status(200)
-            .send({ message: "Reading list is empty at this moment!" });
+            .send({ message: "There are no books saved at this moment!" });
     })
     .catch((findAllErr) => {
-      if (findAllErr) {
+      if (createErr) {
         console.error(`Error when finding: ${findAllErr}`);
 
         res.status(500).send({
@@ -74,13 +78,11 @@ router.get("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
   } else {
-    readingList
+    book
       .findOne({ where: { id: req.params.id } })
       .then((results) =>
         results === null
-          ? res
-              .status(404)
-              .send({ message: "Couldn't find that reading list!" })
+          ? res.status(404).send({ message: "Couldn't find that book!" })
           : res.status(200).send(results.dataValues)
       )
       .catch((findOneErr) => {
@@ -96,7 +98,36 @@ router.get("/:id", (req, res) => {
   }
 });
 
-/* PUT (one) - Updates a reading list  */
+/* GET (books from reading list) - Reads all books from one reading list*/
+router.get("/readList/:id", (req, res) => {
+  if (isNotNumber(req.params.id)) {
+    res.status(400).send({ message: "The given id was not a number!" });
+  } else {
+    book
+      .findAll({ where: { readingListId: req.params.id } })
+      .then((results) => {
+        const dataValues = results.map((element) => element.dataValues);
+        dataValues.length > 0
+          ? res.status(200).send(dataValues)
+          : res.status(200).send({
+              message:
+                "There are no books connected to this reading list at this moment!",
+            });
+      })
+      .catch((findAllErr) => {
+        if (createErr) {
+          console.error(`Error when finding: ${findAllErr}`);
+
+          res.status(500).send({
+            message:
+              "Sorry! We are currently having server difficulties. Try again later",
+          });
+        }
+      });
+  }
+});
+
+/* PUT */
 router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
@@ -108,22 +139,20 @@ router.put("/:id", (req, res) => {
   } else if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
   } else {
-    // updating the name if name exists in the incomingData
-    incomingData.name &&
-      readingList
-        .update({ name: incomingData.name }, { where: { id: req.params.id } })
+    // updating the title if title exists in the incomingData
+    incomingData.title &&
+      book
+        .update({ title: incomingData.title }, { where: { id: req.params.id } })
         .then((results) =>
           results[0] === 1
             ? res
                 .status(200)
-                .send({ message: "The reading list name has been updated" })
-            : res
-                .status(404)
-                .send({ message: "Couldn't find that reading list" })
+                .send({ message: "The book title has been updated" })
+            : res.status(404).send({ message: "Couldn't find that book" })
         )
         .catch((updateErr) => {
           if (updateErr) {
-            console.error(`Error when updating: ${updateErr}`);
+            console.error(`Error when updating title: ${updateErr}`);
 
             res.status(500).send({
               message:
@@ -132,22 +161,48 @@ router.put("/:id", (req, res) => {
           }
         });
 
-    // updating the type, if type exists in the incomingData
-    incomingData.type &&
-      readingList
-        .update({ type: incomingData.type }, { where: { id: req.params.id } })
+    // updating the author, if author exists in the incomingData
+    incomingData.author &&
+      book
+        .update(
+          { author: incomingData.author },
+          { where: { id: req.params.id } }
+        )
         .then((results) =>
           results[0] === 1
             ? res
                 .status(200)
-                .send({ message: "The reading list type has been updated" })
-            : res
-                .status(404)
-                .send({ message: "Couldn't find that reading list" })
+                .send({ message: "The book author has been updated" })
+            : res.status(404).send({ message: "Couldn't find that book" })
         )
         .catch((updateErr) => {
           if (updateErr) {
-            console.error(`Error when updating type: ${updateErr}`);
+            console.error(`Error when updating author: ${updateErr}`);
+
+            res.status(500).send({
+              message:
+                "Sorry! We are currently having server difficulties. Try again later",
+            });
+          }
+        });
+
+    // updating the readingListId, if readingListId exists in the incomingData
+    incomingData.readingListId &&
+      book
+        .update(
+          { readingListId: incomingData.readingListId },
+          { where: { id: req.params.id } }
+        )
+        .then((results) =>
+          results[0] === 1
+            ? res
+                .status(200)
+                .send({ message: "The book readListId has been updated" })
+            : res.status(404).send({ message: "Couldn't find that book" })
+        )
+        .catch((updateErr) => {
+          if (updateErr) {
+            console.error(`Error when updating readListId: ${updateErr}`);
 
             res.status(500).send({
               message:
@@ -158,19 +213,17 @@ router.put("/:id", (req, res) => {
   }
 });
 
-/* DELETE (one) - Deletes a reading list  */
+/* DELETE (one) - Deletes a book  */
 router.delete("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
   } else {
-    readingList
+    book
       .destroy({ where: { id: req.params.id } })
       .then((results) =>
         results === 1
-          ? res
-              .status(200)
-              .send({ message: "The reading list name has been deleted" })
-          : res.status(404).send({ message: "Couldn't find that reading list" })
+          ? res.status(200).send({ message: "The book has been deleted" })
+          : res.status(404).send({ message: "Couldn't find that book" })
       )
       .catch((destroyErr) => {
         if (destroyErr) {
@@ -184,5 +237,4 @@ router.delete("/:id", (req, res) => {
       });
   }
 });
-
 module.exports = router;

@@ -3,7 +3,6 @@ module.exports = (Sequelize, connector) => {
     title: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
     },
     author: {
       type: Sequelize.STRING,
