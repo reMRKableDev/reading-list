@@ -3,11 +3,12 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/models");
 const book = db.book;
+const readingList = db.readingList;
 
 /* HELPER FUNCTIONS */
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
 
-/* add book to a list */
+/* POST(CREATE) -  Add a new book */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
@@ -48,7 +49,7 @@ router.post("/", (req, res) => {
   }
 });
 
-/* get all books */
+/* GET(READ) -  Retrieve all the books */
 router.get("/", (req, res) => {
   book
     .findAll()
@@ -72,7 +73,7 @@ router.get("/", (req, res) => {
     });
 });
 
-/* GET (one) - Reads one reading list saved in the database */
+/* GET(READ) ONE- Retrieve one book */
 router.get("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
@@ -97,7 +98,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
-/* GET (books from reading list) - Reads all books from one reading list*/
+/* GET(READ) - Retrieve all books from one reading list */
 router.get("/readList/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
@@ -126,7 +127,7 @@ router.get("/readList/:id", (req, res) => {
   }
 });
 
-/* PUT */
+/* PUT(UPDATE) - Modify one book */
 router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
@@ -187,21 +188,43 @@ router.put("/:id", (req, res) => {
 
     // updating the readingListId, if readingListId exists in the incomingData
     incomingData.readingListId &&
-      book
-        .update(
-          { readingListId: incomingData.readingListId },
-          { where: { id: req.params.id } }
-        )
-        .then((results) =>
-          results[0] === 1
-            ? res
-                .status(200)
-                .send({ message: "The book readListId has been updated" })
-            : res.status(404).send({ message: "Couldn't find that book" })
-        )
-        .catch((updateErr) => {
-          if (updateErr) {
-            console.error(`Error when updating readListId: ${updateErr}`);
+      readingList
+        .findOne({ where: { id: incomingData.readingListId } })
+        .then((results) => {
+          if (results === null) {
+            res
+              .status(404)
+              .send({ message: "the readingListId does not exist" });
+          } else {
+            book
+              .update(
+                { readingListId: incomingData.readingListId },
+                { where: { id: req.params.id } }
+              )
+              .then((results) => {
+                results[0] === 1
+                  ? res.status(200).send({
+                      message: "The book readingListId has been updated",
+                    })
+                  : res
+                      .status(404)
+                      .send({ message: "Couldn't find that book" });
+              })
+              .catch((updateErr) => {
+                if (updateErr) {
+                  console.error(`Error when updating: ${updateErr}`);
+
+                  res.status(500).send({
+                    message:
+                      "Sorry! We are currently having server difficulties. Try again later",
+                  });
+                }
+              });
+          }
+        })
+        .catch((findErr) => {
+          if (findErr) {
+            console.error(`Error when updating: ${findErr}`);
 
             res.status(500).send({
               message:
@@ -212,7 +235,7 @@ router.put("/:id", (req, res) => {
   }
 });
 
-/* DELETE (one) - Deletes a book  */
+/* DELETE(DELETE) - Deletes one book  */
 router.delete("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });

@@ -7,7 +7,7 @@ const readingList = db.readingList;
 /* HELPER FUNCTIONS */
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
 
-/* POST - Creates new reading list */
+/* POST(CREATE) - Add a new reading list */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
@@ -45,7 +45,7 @@ router.post("/", (req, res) => {
   }
 });
 
-/* GET (all) - Reads all reading lists saved in the database */
+/* GET(READ) - Retrieve all reading lists */
 router.get("/", (req, res) => {
   readingList
     .findAll()
@@ -69,7 +69,7 @@ router.get("/", (req, res) => {
     });
 });
 
-/* GET (one) - Reads one reading list saved in the database */
+/* GET(READ) ONE - Retrieve one reading list  */
 router.get("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
@@ -96,7 +96,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
-/* PUT (one) - Updates a reading list  */
+/* PUT(UPDATE) - Modify one reading list  */
 router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
@@ -158,7 +158,7 @@ router.put("/:id", (req, res) => {
   }
 });
 
-/* DELETE (one) - Deletes a reading list  */
+/* DELETE(DELETE) - Deletes one reading list  */
 router.delete("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
