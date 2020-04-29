@@ -1,4 +1,5 @@
 # Reading List
+[![CodeFactor](https://www.codefactor.io/repository/github/remrkabledev/reading-list/badge/master)](https://www.codefactor.io/repository/github/remrkabledev/reading-list/overview/master)
 
 A Node.js api that adds books to reading list
 
