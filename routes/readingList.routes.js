@@ -6,7 +6,7 @@ const readingList = db.readingList;
 
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers/");
 
-/* POST */
+/* POST(CREATE) - Add a new reading list */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
@@ -43,7 +43,7 @@ router.post("/", (req, res) => {
   }
 });
 
-/* GET all the reading list */
+/* GET(READ) - Retrieve all reading lists */
 router.get("/", (req, res) => {
   readingList
     .findAll()
@@ -68,7 +68,7 @@ router.get("/", (req, res) => {
     });
 });
 
-/* GET SPECIFIC */
+/* GET(READ) ONE - Retrieve one reading list  */
 router.get("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res
@@ -97,7 +97,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
-/* PUT */
+/* PUT(UPDATE) - Modify one reading list  */
 router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
@@ -162,7 +162,7 @@ router.put("/:id", (req, res) => {
   }
 });
 
-/* DELETE */
+/* DELETE(DELETE) - Deletes one reading list  */
 router.delete("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });

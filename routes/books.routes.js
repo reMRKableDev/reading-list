@@ -8,7 +8,7 @@ const readingList = db.readingList;
 /* HELPER FUNCTIONS */
 const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
 
-/* CREATE */
+/* POST(CREATE) -  Add a new book */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
@@ -47,7 +47,8 @@ router.post("/", (req, res) => {
       });
   }
 });
-/* READ ALL BOOKS */
+
+/* GET(READ) -  Retrieve all the books */
 router.get("/", (req, res) => {
   book
     .findAll()
@@ -72,7 +73,32 @@ router.get("/", (req, res) => {
     });
 });
 
-/* READ ALL BOOKS OF THE SAME LIST */
+/* GET(READ) ONE- Retrieve one book */
+router.get("/:id", (req, res) => {
+  if (isNotNumber(req.params.id)) {
+    res.status(400).send({ message: "The given id was not a number!" });
+  } else {
+    book
+      .findOne({ where: { id: req.params.id } })
+      .then((results) =>
+        results === null
+          ? res.status(404).send({ message: "Couldn't find that book!" })
+          : res.status(200).send(results.dataValues)
+      )
+      .catch((findOneErr) => {
+        if (findOneErr) {
+          console.error(`Error when finding one: ${findOneErr}`);
+
+          res.status(500).send({
+            message:
+              "Sorry! We are currently having server difficulties. Try again later",
+          });
+        }
+      });
+  }
+});
+
+/* GET(READ) - Retrieve all books from one reading list */
 router.get("/readList/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
@@ -102,34 +128,7 @@ router.get("/readList/:id", (req, res) => {
   }
 });
 
-/* READ ONE SPECIFIC */
-router.get("/:id", (req, res) => {
-  if (isNotNumber(req.params.id)) {
-    res
-      .status(400)
-      .send({ message: "The given id was not a number! Please use a number" });
-  } else {
-    book
-      .findOne({ where: { id: req.params.id } })
-      .then((results) =>
-        results === null
-          ? res.status(404).send({ message: "Couldn't find that book!" })
-          : res.status(200).send(results.dataValues)
-      )
-      .catch((findOneErr) => {
-        if (findOneErr) {
-          console.error(`Error when finding one: ${findOneErr}`);
-
-          res.status(500).send({
-            message:
-              "Sorry! We are currently having server difficulties. Try again later",
-          });
-        }
-      });
-  }
-});
-
-/* UPDATE BOOK */
+/* PUT(UPDATE) - Modify one book */
 router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
@@ -199,7 +198,7 @@ router.put("/:id", (req, res) => {
           if (results === null) {
             res
               .status(404)
-              .send({ message: "the reading list id does not exist" });
+              .send({ message: "the readingListId does not exist" });
           } else {
             book
               .update(
@@ -240,7 +239,7 @@ router.put("/:id", (req, res) => {
   }
 });
 
-/* DELETE BOOK */
+/* DELETE(DELETE) - Deletes one book  */
 router.delete("/:id", (req, res) => {
   if (isNotNumber(req.params.id)) {
     res.status(400).send({ message: "The given id was not a number!" });
