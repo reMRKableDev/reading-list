@@ -1,5 +1,5 @@
 module.exports = {
-  isEmpty: (object) => {
+  isObjectEmpty: (object) => {
     for (const key in object) {
       if (object.hasOwnProperty(key)) {
         return false;

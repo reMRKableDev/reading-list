@@ -6,17 +6,22 @@ const book = db.book;
 const readingList = db.readingList;
 
 /* HELPER FUNCTIONS */
-const { isEmpty, isObjectPropertyEmpty, isNotNumber } = require("../helpers");
+const {
+  isObjectEmpty,
+  isObjectPropertyEmpty,
+  isNotNumber,
+} = require("../helpers");
+
+const findAllBooks = require("../helpers/crudOperations/findAll.helper");
+const findOneBook = require("../helpers/crudOperations/findOne.helper");
 
 /* POST(CREATE) -  Add a new book */
 router.post("/", (req, res) => {
   const incomingData = req.body;
 
-  // check if object is empty
-  isEmpty(incomingData) &&
+  isObjectEmpty(incomingData) &&
     res.status(400).send({ message: "Object cannot be empty" });
 
-  // check each property
   if (isObjectPropertyEmpty(incomingData)) {
     res.status(400).send({ message: "Please fill in all the fields" });
   } else {
@@ -50,52 +55,16 @@ router.post("/", (req, res) => {
 
 /* GET(READ) -  Retrieve all the books */
 router.get("/", (req, res) => {
-  book
-    .findAll()
-    .then((results) => {
-      const dataValues = results.map((element) => element.dataValues);
-
-      dataValues.length > 0
-        ? res.status(200).send(dataValues)
-        : res
-            .status(200)
-            .send({ message: "There are no books saved at this moment!" });
-    })
-    .catch((findAllErr) => {
-      if (findAllErr) {
-        console.error(`Error when finding all: ${findAllErr}`);
-
-        res.status(500).send({
-          message:
-            "Sorry! We are currently having server difficulties. Try again later",
-        });
-      }
-    });
+  findAllBooks(req, res, book, {
+    message: "There are no books saved at this moment!",
+  });
 });
 
 /* GET(READ) ONE- Retrieve one book */
 router.get("/:id", (req, res) => {
-  if (isNotNumber(req.params.id)) {
-    res.status(400).send({ message: "The given id was not a number!" });
-  } else {
-    book
-      .findOne({ where: { id: req.params.id } })
-      .then((results) =>
-        results === null
-          ? res.status(404).send({ message: "Couldn't find that book!" })
-          : res.status(200).send(results.dataValues)
-      )
-      .catch((findOneErr) => {
-        if (findOneErr) {
-          console.error(`Error when finding one: ${findOneErr}`);
-
-          res.status(500).send({
-            message:
-              "Sorry! We are currently having server difficulties. Try again later",
-          });
-        }
-      });
-  }
+  isNotNumber(req.params.id)
+    ? res.status(400).send({ message: "The given id was not a number!" })
+    : findOneBook(req, res, book, { message: "Couldn't find that book!" });
 });
 
 /* GET(READ) - Retrieve all books from one reading list */
@@ -133,7 +102,7 @@ router.put("/:id", (req, res) => {
   const incomingData = req.body;
 
   // check if object is empty
-  isEmpty(incomingData) &&
+  isObjectEmpty(incomingData) &&
     res.status(400).send({ message: "Object cannot be empty" });
 
   if (isObjectPropertyEmpty(incomingData)) {
