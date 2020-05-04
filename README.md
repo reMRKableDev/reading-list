@@ -2,7 +2,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/remrkabledev/reading-list/badge/master)](https://www.codefactor.io/repository/github/remrkabledev/reading-list/overview/master)
 
 A Node.js api with full CRUD implementation.
-- 
 
 ## Getting Started
 
