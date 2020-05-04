@@ -4,7 +4,6 @@
  * @const db                        Database connector.
  * @const readingList               Model for table reading_lists in the database.
  */
-
 const db = require("../database/models");
 const readingList = db.readingList;
 
@@ -15,7 +14,6 @@ const readingList = db.readingList;
  * @const isObjectPropertyEmpty     Checks if any of the properties of incoming object are empty / null.
  * @const isNotNumber               Checks if incoming value is not a number.
  */
-
 const isObjectEmpty = require("../helpers/requestValidators/isObjectEmpty.helper");
 const isObjectPropertyEmpty = require("../helpers/requestValidators/isObjectPropertyEmpty.helper");
 const isNotNumber = require("../helpers/requestValidators/isNotNumber.helper");
@@ -27,14 +25,13 @@ const isNotNumber = require("../helpers/requestValidators/isNotNumber.helper");
  * @const findAllReadingLists       Implements READ.
  * @const findOneReadingList        Implements READ (FOR JUST ONE).
  * @const updateReadingList         Implements UPDATE.
- * @const destroyReadingList        Implements DELETE.
+ * @const deleteReadingList         Implements DELETE.
  */
-
 const findOrCreateReadingList = require("../helpers/crudOperations/findOrCreate.helper");
 const findAllReadingLists = require("../helpers/crudOperations/findAll.helper");
 const findOneReadingList = require("../helpers/crudOperations/findOne.helper");
 const updateReadingList = require("../helpers/crudOperations/update.helper");
-const destroyReadingList = require("../helpers/crudOperations/destroy.helper");
+const deleteReadingList = require("../helpers/crudOperations/destroy.helper");
 
 /**
  * Controllers for reading list.
@@ -46,7 +43,6 @@ module.exports = {
    * @param {object} req              Client request.
    * @param {object} res              Server response.
    */
-
   createNewReadingList: (req, res) => {
     const incomingData = req.body;
 
@@ -66,7 +62,6 @@ module.exports = {
    * @param {object} req              Client request.
    * @param {object} res              Server response.
    */
-
   readAllReadingLists: (_req, res) => {
     findAllReadingLists(res, readingList, {
       message: "Reading list is empty at this moment!",
@@ -78,17 +73,14 @@ module.exports = {
    * @param {object} req              Client request.
    * @param {object} res              Server response.
    */
-
   readOneReadingList: (req, res) => {
-    if (isNotNumber(req.params.id)) {
-      res.status(400).send({
-        message: "The given id was not a number! Please use a number",
-      });
-    } else {
-      findOneReadingList(req, res, readingList, {
-        message: "Couldn't find that reading list!",
-      });
-    }
+    isNotNumber(req.params.id)
+      ? res.status(400).send({
+          message: "The given id was not a number! Please use a number",
+        })
+      : findOneReadingList(req, res, readingList, {
+          message: "Couldn't find that reading list!",
+        });
   },
 
   /**
@@ -96,7 +88,6 @@ module.exports = {
    * @param {object} req              Client request.
    * @param {object} res              Server response.
    */
-
   updateReadingList: (req, res) => {
     const incomingData = req.body;
 
@@ -142,7 +133,6 @@ module.exports = {
    * @param {object} req              Client request.
    * @param {object} res              Server response.
    */
-
   deleteReadingList: (req, res) => {
     const okMessage = {
       message: "The reading list has been deleted",
@@ -151,6 +141,6 @@ module.exports = {
 
     isNotNumber(req.params.id)
       ? res.status(400).send({ message: "The given id was not a number!" })
-      : destroyReadingList(req, res, readingList, okMessage, notFoundMessage);
+      : deleteReadingList(req, res, readingList, okMessage, notFoundMessage);
   },
 };

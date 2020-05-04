@@ -1,5 +1,20 @@
+/**
+ * @const handleError   Handles errors the occur in the catch.
+ */
 const handleError = require("./handleError.helper");
 
+/**
+ * Updates a row in the database table.
+ * @function
+ * @module
+ *
+ * @param {object} req
+ * @param {object} res
+ * @param {object} column
+ * @param {object} model
+ * @param {object} okMessage
+ * @param {object} notFoundMessage
+ */
 module.exports = (req, res, column, model, okMessage, notFoundMessage) => {
   model
     .update(column, { where: { id: req.params.id } })

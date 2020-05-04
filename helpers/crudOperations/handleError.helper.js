@@ -1,3 +1,11 @@
+/**
+ * Handles errors the occur by sending message to client.
+ * @function
+ * @module
+ * 
+ * @param {object} res
+ * @param {object} error
+ */
 module.exports = (res, error) => {
   if (error) {
     console.error(`Error when finding all: ${error}`);
