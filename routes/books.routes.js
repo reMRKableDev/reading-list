@@ -62,7 +62,7 @@ router.get("/:id", readOneBook);
 router.get("/readList/:id", readAllBooksInReadingList);
 
 /**
- * Implements GET
+ * Implements PUT
  * @method router.get
  * @param {string} path
  * @param {function} updateBook
@@ -70,7 +70,7 @@ router.get("/readList/:id", readAllBooksInReadingList);
 router.put("/:id", updateBook);
 
 /**
- * Implements GET
+ * Implements DELETE
  * @method router.get
  * @param {string} path
  * @param {function} deleteBook
