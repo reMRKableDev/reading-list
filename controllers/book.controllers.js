@@ -50,8 +50,8 @@ const deleteBook = require("../helpers/crudOperations/destroy.helper");
 module.exports = {
   /**
    * @function createNewBook                 Takes in request object, runs validations, and sends back response.
-   * @param {object} req                     Client request.
-   * @param {object} res                     Server response.
+   * @param {express.Request} req            Client request.
+   * @param {express.Response} res           Server response.
    */
   createNewBook: (req, res) => {
     const incomingData = req.body;
@@ -69,8 +69,8 @@ module.exports = {
 
   /**
    * @function readAllBooks                  Retrieves all data from table in database.
-   * @param {object} req                     Client request.
-   * @param {object} res                     Server response.
+   * @param {express.Request} req            Client request.
+   * @param {express.Response} res           Server response.
    */
   readAllBooks: (_req, res) => {
     findAllBooks(res, book, {
@@ -80,8 +80,8 @@ module.exports = {
 
   /**
    * @function readOneBook                   Takes in request value, runs validations, and returns data from one row from table in database.
-   * @param {object} req                     Client request.
-   * @param {object} res                     Server response.
+   * @param {express.Request} req            Client request.
+   * @param {express.Response} res           Server response.
    */
   readOneBook: (req, res) =>
     isNotNumber(req.params.id)
@@ -90,8 +90,8 @@ module.exports = {
 
   /**
    * @function readAllBooksInReadingList     Takes in request value, runs validations, and returns data from one row from table in database.
-   * @param {object} req                     Client request.
-   * @param {object} res                     Server response.
+   * @param {express.Request} req            Client request.
+   * @param {express.Response} res           Server response.
    */
   readAllBooksInReadingList: (req, res) => {
     if (isNotNumber(req.params.id)) {
@@ -124,8 +124,8 @@ module.exports = {
 
   /**
    * @function updateBook             Takes in request value, runs validations, and updates a row in table.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req            Client request.
+   * @param {express.Response} res           Server response.
    */
   updateBook: (req, res) => {
     const incomingData = req.body;
@@ -202,8 +202,8 @@ module.exports = {
 
   /**
    * @function deleteBook             Takes in request value, runs validations, and deletes a row in table.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req            Client request.
+   * @param {express.Response} res           Server response.
    */
   deleteBook: (req, res) => {
     const okMessage = { message: "The book has been deleted" };
