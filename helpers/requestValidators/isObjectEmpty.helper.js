@@ -1,7 +1,7 @@
 /**
  * Checks if incoming object is empty
  * @function
- * @module
+ * @module isObjectEmpty/helper
  *
  * @param {object} object
  * @returns {boolean}

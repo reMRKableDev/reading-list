@@ -1,7 +1,7 @@
 /**
  * Checks if incoming value is a number
  * @function
- * @module
+ * @module isNotNumber/helper
  *
  * @param {*} incomingId
  * @returns {boolean}

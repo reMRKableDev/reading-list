@@ -6,7 +6,7 @@ const handleError = require("./handleError.helper");
 /**
  * Updates a row in the database table.
  * @function
- * @module
+ * @module update/helper
  *
  * @param {object} req
  * @param {object} res

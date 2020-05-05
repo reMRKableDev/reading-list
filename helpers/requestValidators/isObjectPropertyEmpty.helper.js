@@ -1,7 +1,7 @@
 /**
  * Checks if any properties in incoming object have empty values.
  * @function
- * @module
+ * @module isObjectPropertyEmpty/helper
  *
  * @param {object} object
  * @returns {boolean}

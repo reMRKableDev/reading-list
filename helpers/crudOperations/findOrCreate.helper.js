@@ -27,7 +27,7 @@ const sendCreatedStatus = (res, message) => {
 /**
  * Searches table for existing row, if not found, creates new entity.
  * @function
- * @module
+ * @module findOrCreate/helper
  *
  * @param {object} res
  * @param {object} incomingData

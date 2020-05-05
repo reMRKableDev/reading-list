@@ -6,7 +6,8 @@ const handleError = require("./handleError.helper");
 /**
  * Selects all rows from database table that match the passed condition.
  * @function
- * @module
+ * @module findOne/helper
+ *
  * @param {object} req
  * @param {object} res
  * @param {object} model

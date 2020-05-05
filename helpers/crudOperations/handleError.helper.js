@@ -1,7 +1,7 @@
 /**
  * Handles errors the occur by sending message to client.
  * @function
- * @module
+ * @module handleError/helper
  *
  * @param {object} res
  * @param {object} error
