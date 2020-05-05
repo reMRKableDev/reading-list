@@ -2,8 +2,14 @@
  * Database & model imports.
  *
  * @const db                                 Database connector.
+ * @requires module:db.config.js
+ *
  * @const book                               Model for table books in the database.
+ * @type {Sequelize.model}
+ *
  * @const readingList                        Model for table reading_lists in the database.
+ * @type {Sequelize.model}
+ *
  */
 const db = require("../database/models");
 

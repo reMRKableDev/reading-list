@@ -11,7 +11,7 @@ require("dotenv").config();
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_DIALECT } = process.env;
 
 /**
- * @module database/configuration
+ * @module db.config.js
  * @type {Object}                             db.config
  * @type {string}                             db.config.host
  * @type {string}                             db.config.user

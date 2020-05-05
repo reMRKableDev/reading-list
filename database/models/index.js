@@ -16,7 +16,7 @@ const { host, user, password, name, dialect } = require("../configs/db.config");
 /**
  * Connects to the database by creating a Sequelize instance.
  * @instance
- * @requires module:sequelize
+ * @requires module:db.config.js
  *
  * @param {string}        name
  * @param {string}        user
@@ -32,7 +32,8 @@ const connector = new Sequelize(name, user, password, {
 
 /**
  * Authenticate the database connection
- * @return {Promise}
+ * @method connector.authenticate()
+ * @returns {Promise}
  */
 connector
   .authenticate()
