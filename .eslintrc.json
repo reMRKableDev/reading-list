@@ -12,7 +12,6 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "ignorePatterns": ["node_modules/"],
   "rules": {
     "no-console": "off",
     "no-unused-expressions": "off",
