@@ -41,8 +41,8 @@ const deleteReadingList = require("../helpers/crudOperations/destroy.helper");
 module.exports = {
   /**
    * @function createNewReadingList   Takes in request object, runs validations, and sends back response.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req     Client request.
+   * @param {express.Response} res    Server response.
    */
   createNewReadingList: (req, res) => {
     const incomingData = req.body;
@@ -60,8 +60,8 @@ module.exports = {
 
   /**
    * @function readAllReadingLists    Retrieves all data from table in database.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req     Client request.
+   * @param {express.Response} res    Server response.
    */
   readAllReadingLists: (_req, res) => {
     findAllReadingLists(res, readingList, {
@@ -71,8 +71,8 @@ module.exports = {
 
   /**
    * @function readOneReadingList     Takes in request value, runs validations, and returns data from one row from table in database.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req     Client request.
+   * @param {express.Response} res    Server response.
    */
   readOneReadingList: (req, res) => {
     isNotNumber(req.params.id)
@@ -86,8 +86,8 @@ module.exports = {
 
   /**
    * @function updateReadingList      Takes in request value, runs validations, and updates a row in table.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req     Client request.
+   * @param {express.Response} res    Server response.
    */
   updateReadingList: (req, res) => {
     const incomingData = req.body;
@@ -131,8 +131,8 @@ module.exports = {
 
   /**
    * @function deleteReadingList      Takes in request value, runs validations, and deletes a row in table.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @param {express.Request} req     Client request.
+   * @param {express.Response} res    Server response.
    */
   deleteReadingList: (req, res) => {
     const okMessage = {

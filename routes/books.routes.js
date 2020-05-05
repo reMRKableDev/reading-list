@@ -30,19 +30,54 @@ const {
 } = require("../controllers/book.controllers");
 
 /**
- * 
+ * Implements POST
+ * @method router.post
+ * @param {string} path
+ * @param {function} createNewBook
  */
-
 router.post("/", createNewBook);
 
+/**
+ * Implements GET
+ * @method router.get
+ * @param {string} path
+ * @param {function} readAllBooks
+ */
 router.get("/", readAllBooks);
 
+/**
+ * Implements GET
+ * @method router.get
+ * @param {string} path
+ * @param {function} readOneBook
+ */
 router.get("/:id", readOneBook);
 
+/**
+ * Implements GET
+ * @method router.get
+ * @param {string} path
+ * @param {function} readAllBooksInReadingList
+ */
 router.get("/readList/:id", readAllBooksInReadingList);
 
+/**
+ * Implements GET
+ * @method router.get
+ * @param {string} path
+ * @param {function} updateBook
+ */
 router.put("/:id", updateBook);
 
+/**
+ * Implements GET
+ * @method router.get
+ * @param {string} path
+ * @param {function} deleteBook
+ */
 router.delete("/:id", deleteBook);
 
+/**
+ * @module router
+ */
 module.exports = router;
