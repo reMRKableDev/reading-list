@@ -1,9 +1,9 @@
 /**
  * Database & model imports.
  *
- * @const db                        Database connector.
- * @const book                      Model for table books in the database.
- * @const readingList               Model for table reading_lists in the database.
+ * @const db                                 Database connector.
+ * @const book                               Model for table books in the database.
+ * @const readingList                        Model for table reading_lists in the database.
  */
 const db = require("../database/models");
 
@@ -14,9 +14,9 @@ const { readingList } = db;
 /**
  * Helper functions for validating incoming request values.
  *
- * @const isObjectEmpty             Checks if incoming object is empty.
- * @const isObjectPropertyEmpty     Checks if any of the properties of incoming object are empty / null.
- * @const isNotNumber               Checks if incoming value is not a number.
+ * @const isObjectEmpty                      Checks if incoming object is empty.
+ * @const isObjectPropertyEmpty              Checks if any of the properties of incoming object are empty / null.
+ * @const isNotNumber                        Checks if incoming value is not a number.
  */
 const isObjectEmpty = require("../helpers/requestValidators/isObjectEmpty.helper");
 const isObjectPropertyEmpty = require("../helpers/requestValidators/isObjectPropertyEmpty.helper");
@@ -25,11 +25,11 @@ const isNotNumber = require("../helpers/requestValidators/isNotNumber.helper");
 /**
  * Helper functions for handling / implementing Sequelize methods.
  *
- * @const findOrCreateBook          Implements CREATE.
- * @const findAllBooks              Implements READ.
- * @const findOneBook               Implements READ (FOR JUST ONE).
- * @const updateBook                Implements UPDATE.
- * @const deleteBook                Implements DELETE.
+ * @const findOrCreateBook                   Implements CREATE.
+ * @const findAllBooks                       Implements READ.
+ * @const findOneBook                        Implements READ (FOR JUST ONE).
+ * @const updateBook                         Implements UPDATE.
+ * @const deleteBook                         Implements DELETE.
  */
 const findOrCreateBook = require("../helpers/crudOperations/findOrCreate.helper");
 const findAllBooks = require("../helpers/crudOperations/findAll.helper");
@@ -43,9 +43,9 @@ const deleteBook = require("../helpers/crudOperations/destroy.helper");
  */
 module.exports = {
   /**
-   * @function createNewBook        Takes in request object, runs validations, and sends back response.
-   * @param {object} req            Client request.
-   * @param {object} res            Server response.
+   * @function createNewBook                 Takes in request object, runs validations, and sends back response.
+   * @param {object} req                     Client request.
+   * @param {object} res                     Server response.
    */
   createNewBook: (req, res) => {
     const incomingData = req.body;
@@ -62,9 +62,9 @@ module.exports = {
   },
 
   /**
-   * @function readAllBooks           Retrieves all data from table in database.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @function readAllBooks                  Retrieves all data from table in database.
+   * @param {object} req                     Client request.
+   * @param {object} res                     Server response.
    */
   readAllBooks: (_req, res) => {
     findAllBooks(res, book, {
@@ -73,9 +73,9 @@ module.exports = {
   },
 
   /**
-   * @function readOneBook            Takes in request value, runs validations, and returns data from one row from table in database.
-   * @param {object} req              Client request.
-   * @param {object} res              Server response.
+   * @function readOneBook                   Takes in request value, runs validations, and returns data from one row from table in database.
+   * @param {object} req                     Client request.
+   * @param {object} res                     Server response.
    */
   readOneBook: (req, res) =>
     isNotNumber(req.params.id)
