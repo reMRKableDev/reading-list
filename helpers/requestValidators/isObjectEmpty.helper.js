@@ -6,11 +6,4 @@
  * @param {object} object
  * @returns {boolean}
  */
-module.exports = (object) => {
-  for (const key in object) {
-    if (object.hasOwnProperty(key)) {
-      return false;
-    }
-  }
-  return true;
-};
+module.exports = (object) => Object.keys(object).length === 0;

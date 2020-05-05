@@ -18,8 +18,8 @@ const db = {};
 
 db.Sequelize = Sequelize;
 db.connector = connector;
-db.readingList = require("../models/readingList.model")(Sequelize, connector);
-db.book = require("../models/book.model")(Sequelize, connector);
+db.readingList = require("./readingList.model")(Sequelize, connector);
+db.book = require("./book.model")(Sequelize, connector);
 
 db.book.belongsTo(db.readingList);
 

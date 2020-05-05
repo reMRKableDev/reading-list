@@ -5,7 +5,8 @@
  * @const readingList               Model for table reading_lists in the database.
  */
 const db = require("../database/models");
-const readingList = db.readingList;
+
+const { readingList } = db;
 
 /**
  * Helper functions for validating incoming request values.

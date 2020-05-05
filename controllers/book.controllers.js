@@ -6,8 +6,10 @@
  * @const readingList               Model for table reading_lists in the database.
  */
 const db = require("../database/models");
-const book = db.book;
-const readingList = db.readingList;
+
+const { book } = db;
+
+const { readingList } = db;
 
 /**
  * Helper functions for validating incoming request values.
@@ -75,11 +77,10 @@ module.exports = {
    * @param {object} req              Client request.
    * @param {object} res              Server response.
    */
-  readOneBook: (req, res) => {
+  readOneBook: (req, res) =>
     isNotNumber(req.params.id)
       ? res.status(400).send({ message: "The given id was not a number!" })
-      : findOneBook(req, res, book, { message: "Couldn't find that book!" });
-  },
+      : findOneBook(req, res, book, { message: "Couldn't find that book!" }),
 
   /**
    * @function readAllBooksInReadingList     Takes in request value, runs validations, and returns data from one row from table in database.
@@ -95,7 +96,7 @@ module.exports = {
         .then((results) => {
           const dataValues = results.map((element) => element.dataValues);
 
-          dataValues.length > 0
+          return dataValues.length > 0
             ? res.status(200).send(dataValues)
             : res.status(200).send({
                 message:
@@ -202,7 +203,7 @@ module.exports = {
     const okMessage = { message: "The book has been deleted" };
     const notFoundMessage = { message: "Couldn't find that book" };
 
-    isNotNumber(req.params.id)
+    return isNotNumber(req.params.id)
       ? res.status(400).send({ message: "The given id was not a number!" })
       : deleteBook(req, res, book, okMessage, notFoundMessage);
   },
