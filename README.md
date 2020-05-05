@@ -1,5 +1,5 @@
 # Reading List
-[![CodeFactor](https://www.codefactor.io/repository/github/remrkabledev/reading-list/badge/master)](https://www.codefactor.io/repository/github/remrkabledev/reading-list/overview/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/remrkabledev/reading-list/badge/master)](https://www.codefactor.io/repository/github/remrkabledev/reading-list/overview/master) ![eslint](https://github.com/reMRKableDev/reading-list/workflows/eslint/badge.svg)
 
 A Node.js api with full CRUD implementation.
 
