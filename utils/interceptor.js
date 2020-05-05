@@ -26,4 +26,14 @@ module.exports = {
     server.listen = jest.fn();
     return server;
   },
+
+  mockConfig: () => {
+    const config = {};
+    config.host = jest.fn().mockReturnValue(config);
+    config.user = jest.fn().mockReturnValue(config);
+    config.password = jest.fn().mockReturnValue(config);
+    config.name = jest.fn().mockReturnValue(config);
+    config.dialect = jest.fn().mockReturnValue(config);
+    return config;
+  },
 };
