@@ -1,8 +1,14 @@
 const isNotNumber = require("../isNotNumber.helper");
 
-const { validateBooleanValues } = require("../../../utils/validators");
+const {
+  validateTruthiness,
+  validateBooleanValues,
+} = require("../../../utils/validators");
 
 describe("isNotNumber helper function unit tests", () => {
+  it("should validate incoming module truthiness", () => {
+    validateTruthiness(isNotNumber);
+  });
   it("should validate string type as true", () => {
     validateBooleanValues(isNotNumber("dummy"), true);
   });
