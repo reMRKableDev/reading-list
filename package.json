@@ -4,7 +4,7 @@
   "description": "A reading list application",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watchAll=false",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "lint": "eslint --no-error-on-unmatched-pattern ",

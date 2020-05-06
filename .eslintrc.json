@@ -19,6 +19,7 @@
     "no-unused-expressions": "off",
     "no-restricted-globals": "off",
     "import/no-unresolved": "off",
+    "no-underscore-dangle": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",

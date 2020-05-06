@@ -31,18 +31,6 @@ const connector = new Sequelize(name, user, password, {
 });
 
 /**
- * Authenticate the database connection
- * @method connector.authenticate()
- * @returns {Promise}
- */
-connector
-  .authenticate()
-  .then(() => console.log(`Connection to database is successful`))
-  .catch((err) =>
-    console.error(`Connection to database was unsuccessful: ${err}`)
-  );
-
-/**
  * Initiates a database object with the connector, models, and associations.
  * @const db                               Database object
  * @type {Sequelize.constructor}           db.Sequelize

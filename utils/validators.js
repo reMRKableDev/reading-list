@@ -1,6 +1,6 @@
 module.exports = {
-  validateTruthiness: (object) =>
-    expect(object).not.toBeNull() && expect(object).toBeTruthy(),
+  validateTruthiness: (received) =>
+    expect(received).not.toBeNull() && expect(received).toBeTruthy(),
 
   validateStatusToBeOK: (status) =>
     expect(status).not.toBe(404) && expect(status).toBe(200),
@@ -8,7 +8,18 @@ module.exports = {
   validateStatusNotFound: (status) =>
     expect(status).not.toBe(200) && expect(status).toBe(404),
 
-  validateObjectDataType: (object) =>
-    expect(typeof object).toBe("object") &&
-    expect(typeof object).not.toBe("string"),
+  validateObjectDataType: (received) =>
+    expect(typeof received).not.toBe("string") &&
+    expect(typeof received).toBe("object"),
+
+  validateObjectToHaveProperty: (received, key) =>
+    expect(received).not.toHaveProperty("dummy") &&
+    expect(received).toHaveProperty(key),
+
+  validateMatchingStringValues: (received1, received2) =>
+    expect(received1).not.toMatch("dummy") &&
+    expect(received1).toMatch(received2),
+
+  validateBooleanValues: (received, boolean) =>
+    expect(received).not.toBe(!boolean) && expect(received).toBe(boolean),
 };
