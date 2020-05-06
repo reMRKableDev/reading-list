@@ -15,11 +15,10 @@
     "collectCoverage": false,
     "collectCoverageFrom": [
       "*.js",
-      "database/configs/*.js",
-      "database/models/*.js",
+      "database/*/*.js",
       "controllers/*.js",
       "routes/*.js",
-      "helpers/*.js",
+      "helpers/*/*.js",
       "!server.js"
     ],
     "coverageThreshold": {
