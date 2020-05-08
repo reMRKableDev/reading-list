@@ -19,7 +19,9 @@ const bookController = require("../book.controllers");
 const readingList = require("../readingList.controllers");
 
 const {
+  validateSendMockCalls,
   validateNumberOfMockCalls,
+  validateEmptyPropertyResponseMessage,
   validateToHaveBeenCalledWithBadRequest,
 } = require("../../utils/validators");
 
@@ -44,6 +46,12 @@ describe("Controllers unit tests", () => {
     it("should return 400 status code", () => {
       validateToHaveBeenCalledWithBadRequest(res.status);
     });
+
+    it("should validate the message sent by res.send", () => {
+      validateSendMockCalls(res.send, 1);
+      const { message } = res.send.mock.calls[0][0];
+      validateEmptyPropertyResponseMessage(message);
+    });
   });
 
   describe("createNewReadingList controller: empty object unit test", () => {
@@ -55,13 +63,19 @@ describe("Controllers unit tests", () => {
     });
 
     it("should validate the existence empty property in incoming object", () => {
-      validateNumberOfMockCalls(isObjectEmpty, 3);
-      validateNumberOfMockCalls(isObjectPropertyEmpty, 3);
+      validateNumberOfMockCalls(isObjectEmpty, 4);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 4);
       validateNumberOfMockCalls(findOrCreate, 0);
     });
 
     it("should return 400 status code", () => {
       validateToHaveBeenCalledWithBadRequest(res.status);
+    });
+
+    it("should validate the message sent by res.send", () => {
+      validateSendMockCalls(res.send, 1);
+      const { message } = res.send.mock.calls[0][0];
+      validateEmptyPropertyResponseMessage(message);
     });
   });
 });

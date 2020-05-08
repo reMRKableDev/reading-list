@@ -64,4 +64,9 @@ module.exports = {
     expect(received).not.toMatch("dummy");
     expect(received).toMatch("Object cannot be empty");
   },
+
+  validateEmptyPropertyResponseMessage: (received) => {
+    expect(received).not.toMatch("dummy");
+    expect(received).toMatch("Please fill in all the fields");
+  },
 };
