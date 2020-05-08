@@ -8,6 +8,14 @@ module.exports = {
   validateStatusNotFound: (status) =>
     expect(status).not.toBe(200) && expect(status).toBe(404),
 
+  validateToHaveBeenCalledWithBadRequest: (status) =>
+    expect(status).not.toHaveBeenCalledWith(200) &&
+    expect(status).toHaveBeenCalledWith(400),
+
+  validateToHaveBeenCalledWithOk: (status) =>
+    expect(status).not.toHaveBeenCalledWith(500) &&
+    expect(status).toHaveBeenCalledWith(200),
+
   validateObjectDataType: (received) =>
     expect(typeof received).not.toBe("string") &&
     expect(typeof received).toBe("object"),
@@ -22,4 +30,7 @@ module.exports = {
 
   validateBooleanValues: (received, boolean) =>
     expect(received).not.toBe(!boolean) && expect(received).toBe(boolean),
+
+  validateNumberOfMockCalls: (received, amount) =>
+    expect(received).toHaveBeenCalledTimes(amount),
 };

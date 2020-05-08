@@ -3,6 +3,8 @@
  */
 const handleError = require("./handleError.helper");
 
+const sendCreatedStatus = require("./sendCreatedStatus.helper");
+
 /**
  * @param {object} res
  */
@@ -16,13 +18,13 @@ const createErrHandler = (res) => {
  * @param {object} res
  * @param {object} message
  */
-const sendCreatedStatus = (res, message) => {
+/* const sendCreatedStatus = (res, message) => {
   return ([results, created]) => {
     created
       ? res.status(200).send(results.dataValues)
       : res.status(409).send(message);
   };
-};
+}; */
 
 /**
  * Searches table for existing row, if not found, creates new entity.
