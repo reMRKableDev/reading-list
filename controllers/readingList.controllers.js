@@ -92,10 +92,9 @@ module.exports = {
   updateReadingList: (req, res) => {
     const incomingData = req.body;
 
-    isObjectEmpty(incomingData) &&
+    if (isObjectEmpty(incomingData)) {
       res.status(400).send({ message: "Object cannot be empty" });
-
-    if (isObjectPropertyEmpty(incomingData)) {
+    } else if (isObjectPropertyEmpty(incomingData)) {
       res.status(400).send({ message: "Please fill in all the fields" });
     } else if (isNotNumber(req.params.id)) {
       res.status(400).send({
