@@ -19,12 +19,12 @@ describe("Reading List Model unit tests", () => {
     readingListMock = ReadingList(SequelizeMock, connectionMock);
   });
 
-  it("should validate model name to equal 'book' ", () => {
-    validateMatchingStringValues(readingListMock.name, "readingList");
+  it("should validate model name to equal 'reading_list' ", () => {
+    validateMatchingStringValues(readingListMock.name, "reading_list");
   });
 
-  it("should validate table name to equal 'books' ", () => {
-    validateMatchingStringValues(readingListMock.tableName, "readingLists");
+  it("should validate table name to equal 'reading_lists' ", () => {
+    validateMatchingStringValues(readingListMock.tableName, "reading_lists");
   });
 
   it("should validate table columns", () => {
