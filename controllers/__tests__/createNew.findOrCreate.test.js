@@ -29,11 +29,6 @@ describe("Controller: create unit tests", () => {
   describe("createNewBook controller: create new book unit test", () => {
     beforeEach(async () => {
       req = mockRequest();
-      req.body = {
-        title: "4-Hour Workweek",
-        author: "Tim Ferris",
-        readingListId: 1,
-      };
       res = mockResponse();
       await bookController.createNewBook(req, res);
     });

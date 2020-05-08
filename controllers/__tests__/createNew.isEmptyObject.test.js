@@ -32,7 +32,6 @@ describe("Controllers unit tests", () => {
   describe("createNewBook controller: empty object unit test", () => {
     beforeEach(async () => {
       req = mockRequest();
-      req.body = {};
       res = mockResponse();
       await bookController.createNewBook(req, res);
     });
@@ -57,7 +56,6 @@ describe("Controllers unit tests", () => {
   describe("createNewReadingList controller: empty object unit test", () => {
     beforeEach(async () => {
       req = mockRequest();
-      req.body = {};
       res = mockResponse();
       await readingList.createNewReadingList(req, res);
     });
