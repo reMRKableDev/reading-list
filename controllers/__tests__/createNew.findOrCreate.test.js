@@ -1,5 +1,3 @@
-require("iconv-lite").encodingExists("foo");
-
 jest.mock("../../helpers/crudOperations/findOrCreate.helper");
 
 jest.mock("../../helpers/requestValidators/isObjectEmpty.helper", () =>
@@ -27,7 +25,7 @@ const { validateNumberOfMockCalls } = require("../../utils/validators");
 let req;
 let res;
 
-describe("Controller unit tests", () => {
+describe("Controller: create unit tests", () => {
   describe("createNewBook controller: create new book unit test", () => {
     beforeEach(async () => {
       req = mockRequest();
