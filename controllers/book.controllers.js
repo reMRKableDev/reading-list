@@ -85,7 +85,9 @@ module.exports = {
    */
   readOneBook: (req, res) =>
     isNotNumber(req.params.id)
-      ? res.status(400).send({ message: "The given id was not a number!" })
+      ? res.status(400).send({
+          message: "The given id was not a number! Please use a number",
+        })
       : findOneBook(req, res, book, { message: "Couldn't find that book!" }),
 
   /**
@@ -95,7 +97,9 @@ module.exports = {
    */
   readAllBooksInReadingList: (req, res) => {
     if (isNotNumber(req.params.id)) {
-      res.status(400).send({ message: "The given id was not a number!" });
+      res.status(400).send({
+        message: "The given id was not a number! Please use a number",
+      });
     } else {
       book
         .findAll({ where: { readingListId: req.params.id } })
@@ -210,7 +214,9 @@ module.exports = {
     const notFoundMessage = { message: "Couldn't find that book" };
 
     return isNotNumber(req.params.id)
-      ? res.status(400).send({ message: "The given id was not a number!" })
+      ? res.status(400).send({
+          message: "The given id was not a number! Please use a number",
+        })
       : deleteBook(req, res, book, okMessage, notFoundMessage);
   },
 };

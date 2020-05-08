@@ -141,7 +141,9 @@ module.exports = {
     const notFoundMessage = { message: "Couldn't find that reading list" };
 
     isNotNumber(req.params.id)
-      ? res.status(400).send({ message: "The given id was not a number!" })
+      ? res.status(400).send({
+          message: "The given id was not a number! Please use a number",
+        })
       : deleteReadingList(req, res, readingList, okMessage, notFoundMessage);
   },
 };

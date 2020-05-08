@@ -33,4 +33,14 @@ module.exports = {
 
   validateNumberOfMockCalls: (received, amount) =>
     expect(received).toHaveBeenCalledTimes(amount),
+
+  validateSendMockCalls: (received, amount) =>
+    expect(received.mock.calls).toHaveLength(amount),
+
+  validateNaNResponseMessage: (received) =>
+    expect(received).toMatch(
+      "The given id was not a number! Please use a number"
+    ),
+  validateEmptyObjectResponseMessage: (received) =>
+    expect(received).toMatch("Object cannot be empty"),
 };

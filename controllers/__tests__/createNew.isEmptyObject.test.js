@@ -19,7 +19,9 @@ const bookController = require("../book.controllers");
 const readingList = require("../readingList.controllers");
 
 const {
+  validateSendMockCalls,
   validateNumberOfMockCalls,
+  validateEmptyObjectResponseMessage,
   validateToHaveBeenCalledWithBadRequest,
 } = require("../../utils/validators");
 
@@ -44,6 +46,12 @@ describe("Controllers unit tests", () => {
     it("should return 400 status code", () => {
       validateToHaveBeenCalledWithBadRequest(res.status);
     });
+
+    it("should validate the message sent by res.send", () => {
+      validateSendMockCalls(res.send, 1);
+      const { message } = res.send.mock.calls.flat()[0];
+      validateEmptyObjectResponseMessage(message);
+    });
   });
 
   describe("createNewReadingList controller: empty object unit test", () => {
@@ -55,13 +63,19 @@ describe("Controllers unit tests", () => {
     });
 
     it("should validate the incoming empty object", () => {
-      validateNumberOfMockCalls(isObjectEmpty, 3);
+      validateNumberOfMockCalls(isObjectEmpty, 4);
       validateNumberOfMockCalls(isObjectPropertyEmpty, 0);
       validateNumberOfMockCalls(findOrCreate, 0);
     });
 
     it("should return 400 status code", () => {
       validateToHaveBeenCalledWithBadRequest(res.status);
+    });
+
+    it("should validate the message sent by res.send", () => {
+      validateSendMockCalls(res.send, 1);
+      const { message } = res.send.mock.calls.flat()[0];
+      validateEmptyObjectResponseMessage(message);
     });
   });
 });
