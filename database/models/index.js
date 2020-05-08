@@ -27,7 +27,7 @@ const { host, user, password, name, dialect } = require("../configs/db.config");
  */
 const connector = new Sequelize(name, user, password, {
   host,
-  dialect,
+  dialect: "mysql",
 });
 
 /**
