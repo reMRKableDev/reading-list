@@ -44,7 +44,7 @@ describe("Controllers unit tests", () => {
 
     it("should validate the message sent by res.send", () => {
       validateSendMockCalls(res.send, 1);
-      const { message } = res.send.mock.calls.flat()[0];
+      const { message } = res.send.mock.calls[0][0];
       validateNaNResponseMessage(message);
     });
   });
@@ -68,7 +68,7 @@ describe("Controllers unit tests", () => {
 
     it("should validate the message sent by res.send", () => {
       validateSendMockCalls(res.send, 1);
-      const { message } = res.send.mock.calls.flat()[0];
+      const { message } = res.send.mock.calls[0][0];
       validateNaNResponseMessage(message);
     });
   });
