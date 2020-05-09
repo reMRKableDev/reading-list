@@ -12,6 +12,8 @@ jest.mock("../../helpers/requestValidators/isNotNumber.helper", () =>
 
 jest.mock("../../helpers/crudOperations/update.helper");
 
+jest.mock("../../helpers/crudOperations/updateBookReadingListId.helper");
+
 const { mockRequest, mockResponse } = require("../../utils/interceptor");
 
 const isObjectEmpty = require("../../helpers/requestValidators/isObjectEmpty.helper");
@@ -22,16 +24,13 @@ const isNotNumber = require("../../helpers/requestValidators/isNotNumber.helper"
 
 const update = require("../../helpers/crudOperations/update.helper");
 
+const updateBookReadingListId = require("../../helpers/crudOperations/updateBookReadingListId.helper");
+
 const bookController = require("../book.controllers");
 
-const readingList = require("../readingList.controllers");
+const readingListController = require("../readingList.controllers");
 
-const {
-  validateSendMockCalls,
-  validateNumberOfMockCalls,
-  validateEmptyPropertyResponseMessage,
-  validateToHaveBeenCalledWithBadRequest,
-} = require("../../utils/validators");
+const { validateNumberOfMockCalls } = require("../../utils/validators");
 
 let req;
 let res;
@@ -52,6 +51,7 @@ describe("Controllers unit tests", () => {
       validateNumberOfMockCalls(isObjectPropertyEmpty, 1);
       validateNumberOfMockCalls(isNotNumber, 1);
       validateNumberOfMockCalls(update, 1);
+      validateNumberOfMockCalls(updateBookReadingListId, 0);
     });
   });
 
@@ -70,10 +70,11 @@ describe("Controllers unit tests", () => {
       validateNumberOfMockCalls(isObjectPropertyEmpty, 2);
       validateNumberOfMockCalls(isNotNumber, 2);
       validateNumberOfMockCalls(update, 2);
+      validateNumberOfMockCalls(updateBookReadingListId, 0);
     });
   });
 
-  /*   describe("updateBook controller: modify readingListId unit test", () => {
+  describe("updateBook controller: modify readingListId unit test", () => {
     beforeEach(async () => {
       req = mockRequest();
       req.body = {
@@ -83,36 +84,46 @@ describe("Controllers unit tests", () => {
       await bookController.updateBook(req, res);
     });
 
-    it("should check all validations and call update", () => {
+    it("should check all validations and call updateBookReadingListId", () => {
       validateNumberOfMockCalls(isObjectEmpty, 3);
       validateNumberOfMockCalls(isObjectPropertyEmpty, 3);
       validateNumberOfMockCalls(isNotNumber, 3);
+      validateNumberOfMockCalls(updateBookReadingListId, 1);
+    });
+  });
+
+  describe("createNewReadingList controller: modify name unit test", () => {
+    beforeEach(async () => {
+      req = mockRequest();
+      req.body = {
+        name: "Fitness",
+      };
+      res = mockResponse();
+      await readingListController.updateReadingList(req, res);
+    });
+
+    it("should check all validations and call update", () => {
+      validateNumberOfMockCalls(isObjectEmpty, 4);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 4);
+      validateNumberOfMockCalls(isNotNumber, 4);
       validateNumberOfMockCalls(update, 3);
     });
   });
- */
-  /*   describe("createNewReadingList controller: empty object unit test", () => {
+  describe("createNewReadingList controller: modify type unit test", () => {
     beforeEach(async () => {
       req = mockRequest();
+      req.body = {
+        type: "fiction",
+      };
       res = mockResponse();
-      await readingList.updateReadingList(req, res);
+      await readingListController.updateReadingList(req, res);
     });
 
-    it("should validate the incoming empty object", () => {
-      validateNumberOfMockCalls(isObjectEmpty, 4);
-      validateNumberOfMockCalls(isObjectPropertyEmpty, 4);
-      validateNumberOfMockCalls(isNotNumber, 0);
-      validateNumberOfMockCalls(update, 0);
+    it("should check all validations and call update", () => {
+      validateNumberOfMockCalls(isObjectEmpty, 5);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 5);
+      validateNumberOfMockCalls(isNotNumber, 5);
+      validateNumberOfMockCalls(update, 4);
     });
-
-    it("should return 400 status code", () => {
-      validateToHaveBeenCalledWithBadRequest(res.status);
-    });
-
-    it("should validate the message sent by res.send", () => {
-      validateSendMockCalls(res.send, 1);
-      const { message } = res.send.mock.calls[0][0];
-      validateEmptyPropertyResponseMessage(message);
-    });
-  }); */
+  });
 });

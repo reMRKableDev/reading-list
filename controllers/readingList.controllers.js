@@ -106,25 +106,23 @@ module.exports = {
       const updateNameValue = { name: incomingData.name };
       const updateTypeValue = { type: incomingData.type };
 
-      incomingData.name &&
-        updateReadingList(
-          req,
-          res,
-          updateNameValue,
-          readingList,
-          okMessage,
-          notFoundMessage
-        );
-
-      incomingData.type &&
-        updateReadingList(
-          req,
-          res,
-          updateTypeValue,
-          readingList,
-          okMessage,
-          notFoundMessage
-        );
+      incomingData.name
+        ? updateReadingList(
+            req,
+            res,
+            updateNameValue,
+            readingList,
+            okMessage,
+            notFoundMessage
+          )
+        : updateReadingList(
+            req,
+            res,
+            updateTypeValue,
+            readingList,
+            okMessage,
+            notFoundMessage
+          );
     }
   },
 

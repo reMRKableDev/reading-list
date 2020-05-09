@@ -153,7 +153,7 @@ module.exports = {
         readingListId: incomingData.readingListId,
       };
 
-      incomingData.title &&
+      if (incomingData.title) {
         updateBook(
           req,
           res,
@@ -162,8 +162,7 @@ module.exports = {
           okMessage,
           notFoundMessage
         );
-
-      incomingData.author &&
+      } else if (incomingData.author) {
         updateBook(
           req,
           res,
@@ -172,8 +171,7 @@ module.exports = {
           okMessage,
           notFoundMessage
         );
-
-      incomingData.readingListId &&
+      } else {
         updateBookReadingListId(
           req,
           res,
@@ -184,6 +182,7 @@ module.exports = {
           okMessage,
           notFoundMessage
         );
+      }
     }
   },
 
