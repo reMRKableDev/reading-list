@@ -20,6 +20,7 @@
     "no-restricted-globals": "off",
     "import/no-unresolved": "off",
     "no-underscore-dangle": "off",
+    "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",

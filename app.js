@@ -4,13 +4,9 @@
  *
  * @const morgan                                Imports morgan dependency
  * @requires module:morgan
- *
- * @const connector                             Retrieves database connector
- * @type {Sequelize.model}
  */
 const express = require("express");
 const morgan = require("morgan");
-const { connector } = require("./database/models");
 
 /**
  * @const readingListRouter                     Declares route for readingList
@@ -26,16 +22,6 @@ const booksRouter = require("./routes/books.routes");
  * @const app                                   Express app
  */
 const app = express();
-
-/**
- * Sync all defined models to the database.
- * @method connector.sync()
- * @returns {Promise}
- */
-connector
-  .sync()
-  .then(() => console.log("Creating tables for database"))
-  .catch((err) => console.error(`Sync failed: ${err}`));
 
 /**
  * Mounts specified middleware function(s) at the specified path

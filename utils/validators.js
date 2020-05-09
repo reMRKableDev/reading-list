@@ -74,4 +74,9 @@ module.exports = {
     expect(received).not.toMatch("dummy");
     expect(received).toMatch("Please fill in all the fields");
   },
+
+  validateControllerUsed: (received, controller) => {
+    expect(received).not.toBe(() => "dummy");
+    expect(received).toBe(controller);
+  },
 };
