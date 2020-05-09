@@ -1,6 +1,6 @@
 # Reading List
 
-![build](https://github.com/reMRKableDev/reading-list/workflows/build/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/remrkabledev/reading-list/badge/master)](https://www.codefactor.io/repository/github/remrkabledev/reading-list/overview/master) ![eslint](https://github.com/reMRKableDev/reading-list/workflows/eslint/badge.svg)
+![build](https://github.com/reMRKableDev/reading-list/workflows/build/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/remrkabledev/reading-list/badge/master)](https://www.codefactor.io/repository/github/remrkabledev/reading-list/overview/master) ![eslint](https://github.com/reMRKableDev/reading-list/workflows/eslint/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/reMRKableDev/reading-list/badge.svg)](https://snyk.io/test/github/reMRKableDev/reading-list)
 
 A Node.js api with full CRUD implementation.
 
