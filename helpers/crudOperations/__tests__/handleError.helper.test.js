@@ -2,6 +2,11 @@ const handleError = require("../handleError.helper");
 
 const { mockResponse } = require("../../../utils/interceptor");
 
+const {
+  validateSendMockCalls,
+  validateToHaveBeenCalledWithInternalServerError,
+} = require("../../../utils/validators");
+
 const res = mockResponse();
 
 describe("handleError helper unit tests", () => {
@@ -11,7 +16,7 @@ describe("handleError helper unit tests", () => {
     };
 
     expect(test).toThrowError(/Error when finding/);
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send.mock.calls).toHaveLength(1);
+    validateToHaveBeenCalledWithInternalServerError(res.status);
+    validateSendMockCalls(res.send, 1);
   });
 });

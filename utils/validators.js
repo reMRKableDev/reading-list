@@ -24,6 +24,11 @@ module.exports = {
     expect(status).toHaveBeenCalledWith(200);
   },
 
+  validateToHaveBeenCalledWithInternalServerError: (status) => {
+    expect(status).not.toHaveBeenCalledWith(200);
+    expect(status).toHaveBeenCalledWith(500);
+  },
+
   validateObjectDataType: (received) => {
     expect(typeof received).not.toBe("string");
     expect(typeof received).toBe("object");
