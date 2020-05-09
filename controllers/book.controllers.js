@@ -35,12 +35,14 @@ const isNotNumber = require("../helpers/requestValidators/isNotNumber.helper");
  * @const findAllBooks                       Implements READ.
  * @const findOneBook                        Implements READ (FOR JUST ONE).
  * @const updateBook                         Implements UPDATE.
+ * @const updateBookReadingListId            Implements UPDATE (FOR A BOOK'S FOREIGN KEY).
  * @const deleteBook                         Implements DELETE.
  */
 const findOrCreateBook = require("../helpers/crudOperations/findOrCreate.helper");
 const findAllBooks = require("../helpers/crudOperations/findAll.helper");
 const findOneBook = require("../helpers/crudOperations/findOne.helper");
 const updateBook = require("../helpers/crudOperations/update.helper");
+const updateBookReadingListId = require("../helpers/crudOperations/updateBookReadingListId.helper");
 const deleteBook = require("../helpers/crudOperations/destroy.helper");
 
 /**
@@ -127,7 +129,7 @@ module.exports = {
   },
 
   /**
-   * @function updateBook             Takes in request value, runs validations, and updates a row in table.
+   * @function updateBook                    Takes in request value, runs validations, and updates a row in table.
    * @param {express.Request} req            Client request.
    * @param {express.Response} res           Server response.
    */
@@ -172,34 +174,16 @@ module.exports = {
         );
 
       incomingData.readingListId &&
-        readingList
-          .findOne({ where: { id: incomingData.readingListId } })
-          .then((results) => {
-            if (results === null) {
-              res
-                .status(404)
-                .send({ message: "the readingListId does not exist" });
-            } else {
-              updateBook(
-                req,
-                res,
-                updateReadingListIdValue,
-                book,
-                okMessage,
-                notFoundMessage
-              );
-            }
-          })
-          .catch((findErr) => {
-            if (findErr) {
-              console.error(`Error when updating: ${findErr}`);
-
-              res.status(500).send({
-                message:
-                  "Sorry! We are currently having server difficulties. Try again later",
-              });
-            }
-          });
+        updateBookReadingListId(
+          req,
+          res,
+          incomingData.readingListId,
+          updateReadingListIdValue,
+          readingList,
+          book,
+          okMessage,
+          notFoundMessage
+        );
     }
   },
 
