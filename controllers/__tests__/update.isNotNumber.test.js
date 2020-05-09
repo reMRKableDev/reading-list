@@ -1,10 +1,10 @@
-jest.mock("../../helpers/requestValidators/isObjectEmpty.helper", () =>
+jest.mock("../../helpers/requestValidators/isNotNumber.helper", () =>
   jest.fn(() => true)
 );
 
 jest.mock("../../helpers/requestValidators/isObjectPropertyEmpty.helper");
 
-jest.mock("../../helpers/requestValidators/isNotNumber.helper");
+jest.mock("../../helpers/requestValidators/isObjectEmpty.helper");
 
 jest.mock("../../helpers/crudOperations/update.helper");
 
@@ -25,7 +25,7 @@ const readingList = require("../readingList.controllers");
 const {
   validateSendMockCalls,
   validateNumberOfMockCalls,
-  validateEmptyObjectResponseMessage,
+  validateNaNResponseMessage,
   validateToHaveBeenCalledWithBadRequest,
 } = require("../../utils/validators");
 
@@ -42,8 +42,8 @@ describe("Controllers unit tests", () => {
 
     it("should validate the incoming empty object", () => {
       validateNumberOfMockCalls(isObjectEmpty, 1);
-      validateNumberOfMockCalls(isObjectPropertyEmpty, 0);
-      validateNumberOfMockCalls(isNotNumber, 0);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 1);
+      validateNumberOfMockCalls(isNotNumber, 1);
       validateNumberOfMockCalls(update, 0);
     });
 
@@ -54,7 +54,7 @@ describe("Controllers unit tests", () => {
     it("should validate the message sent by res.send", () => {
       validateSendMockCalls(res.send, 1);
       const { message } = res.send.mock.calls[0][0];
-      validateEmptyObjectResponseMessage(message);
+      validateNaNResponseMessage(message);
     });
   });
 
@@ -67,8 +67,8 @@ describe("Controllers unit tests", () => {
 
     it("should validate the incoming empty object", () => {
       validateNumberOfMockCalls(isObjectEmpty, 4);
-      validateNumberOfMockCalls(isObjectPropertyEmpty, 0);
-      validateNumberOfMockCalls(isNotNumber, 0);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 4);
+      validateNumberOfMockCalls(isNotNumber, 4);
       validateNumberOfMockCalls(update, 0);
     });
 
@@ -79,7 +79,7 @@ describe("Controllers unit tests", () => {
     it("should validate the message sent by res.send", () => {
       validateSendMockCalls(res.send, 1);
       const { message } = res.send.mock.calls[0][0];
-      validateEmptyObjectResponseMessage(message);
+      validateNaNResponseMessage(message);
     });
   });
 });

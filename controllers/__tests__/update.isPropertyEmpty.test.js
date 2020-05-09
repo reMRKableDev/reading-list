@@ -1,8 +1,8 @@
-jest.mock("../../helpers/requestValidators/isObjectEmpty.helper", () =>
+jest.mock("../../helpers/requestValidators/isObjectPropertyEmpty.helper", () =>
   jest.fn(() => true)
 );
 
-jest.mock("../../helpers/requestValidators/isObjectPropertyEmpty.helper");
+jest.mock("../../helpers/requestValidators/isObjectEmpty.helper");
 
 jest.mock("../../helpers/requestValidators/isNotNumber.helper");
 
@@ -25,7 +25,7 @@ const readingList = require("../readingList.controllers");
 const {
   validateSendMockCalls,
   validateNumberOfMockCalls,
-  validateEmptyObjectResponseMessage,
+  validateEmptyPropertyResponseMessage,
   validateToHaveBeenCalledWithBadRequest,
 } = require("../../utils/validators");
 
@@ -42,7 +42,7 @@ describe("Controllers unit tests", () => {
 
     it("should validate the incoming empty object", () => {
       validateNumberOfMockCalls(isObjectEmpty, 1);
-      validateNumberOfMockCalls(isObjectPropertyEmpty, 0);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 1);
       validateNumberOfMockCalls(isNotNumber, 0);
       validateNumberOfMockCalls(update, 0);
     });
@@ -54,7 +54,7 @@ describe("Controllers unit tests", () => {
     it("should validate the message sent by res.send", () => {
       validateSendMockCalls(res.send, 1);
       const { message } = res.send.mock.calls[0][0];
-      validateEmptyObjectResponseMessage(message);
+      validateEmptyPropertyResponseMessage(message);
     });
   });
 
@@ -67,7 +67,7 @@ describe("Controllers unit tests", () => {
 
     it("should validate the incoming empty object", () => {
       validateNumberOfMockCalls(isObjectEmpty, 4);
-      validateNumberOfMockCalls(isObjectPropertyEmpty, 0);
+      validateNumberOfMockCalls(isObjectPropertyEmpty, 4);
       validateNumberOfMockCalls(isNotNumber, 0);
       validateNumberOfMockCalls(update, 0);
     });
@@ -79,7 +79,7 @@ describe("Controllers unit tests", () => {
     it("should validate the message sent by res.send", () => {
       validateSendMockCalls(res.send, 1);
       const { message } = res.send.mock.calls[0][0];
-      validateEmptyObjectResponseMessage(message);
+      validateEmptyPropertyResponseMessage(message);
     });
   });
 });
