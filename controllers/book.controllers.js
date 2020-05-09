@@ -33,6 +33,7 @@ const isNotNumber = require("../helpers/requestValidators/isNotNumber.helper");
  *
  * @const findOrCreateBook                   Implements CREATE.
  * @const findAllBooks                       Implements READ.
+ * @const findAllBooksInReadingList          Implements READ (FOR ALL BOOKS IN A READING LIST).
  * @const findOneBook                        Implements READ (FOR JUST ONE).
  * @const updateBook                         Implements UPDATE.
  * @const updateBookReadingListId            Implements UPDATE (FOR A BOOK'S FOREIGN KEY).
@@ -40,6 +41,7 @@ const isNotNumber = require("../helpers/requestValidators/isNotNumber.helper");
  */
 const findOrCreateBook = require("../helpers/crudOperations/findOrCreate.helper");
 const findAllBooks = require("../helpers/crudOperations/findAll.helper");
+const findAllBooksInReadingList = require("../helpers/crudOperations/findAllBooksInReadingList.helper");
 const findOneBook = require("../helpers/crudOperations/findOne.helper");
 const updateBook = require("../helpers/crudOperations/update.helper");
 const updateBookReadingListId = require("../helpers/crudOperations/updateBookReadingListId.helper");
@@ -98,34 +100,11 @@ module.exports = {
    * @param {express.Response} res           Server response.
    */
   readAllBooksInReadingList: (req, res) => {
-    if (isNotNumber(req.params.id)) {
-      res.status(400).send({
-        message: "The given id was not a number! Please use a number",
-      });
-    } else {
-      book
-        .findAll({ where: { readingListId: req.params.id } })
-        .then((results) => {
-          const dataValues = results.map((element) => element.dataValues);
-
-          return dataValues.length > 0
-            ? res.status(200).send(dataValues)
-            : res.status(200).send({
-                message:
-                  "There are no books connected to this reading list at this moment!",
-              });
+    isNotNumber(req.params.id)
+      ? res.status(400).send({
+          message: "The given id was not a number! Please use a number",
         })
-        .catch((findAllErr) => {
-          if (findAllErr) {
-            console.error(`Error when finding: ${findAllErr}`);
-
-            res.status(500).send({
-              message:
-                "Sorry! We are currently having server difficulties. Try again later",
-            });
-          }
-        });
-    }
+      : findAllBooksInReadingList(req, res, book);
   },
 
   /**
