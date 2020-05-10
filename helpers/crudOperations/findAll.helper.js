@@ -13,7 +13,7 @@ const handleError = require("./handleError.helper");
  * @param {object} message
  */
 module.exports = (res, model, message) => {
-  model
+  return model
     .findAll()
     .then((results) => {
       const dataValues = results.map((element) => element.dataValues);

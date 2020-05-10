@@ -15,7 +15,7 @@ const handleError = require("./handleError.helper");
  * @param {object} notFoundMessage
  */
 module.exports = (req, res, model, okMessage, notFoundMessage) => {
-  model
+  return model
     .destroy({ where: { id: req.params.id } })
     .then((results) => {
       results === 1
