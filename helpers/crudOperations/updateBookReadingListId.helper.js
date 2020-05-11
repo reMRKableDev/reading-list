@@ -33,7 +33,7 @@ module.exports = (
   okMessage,
   notFoundMessage
 ) => {
-  readingListModel
+  return readingListModel
     .findOne({ where: { id: readingListId } })
     .then((results) => {
       if (results === null) {
