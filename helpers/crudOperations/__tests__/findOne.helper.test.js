@@ -16,33 +16,23 @@ const { mockResponse, mockRequest } = require("../../../utils/interceptor");
 
 const { validateObjectDataType } = require("../../../utils/validators");
 
-const destroy = require("../destroy.helper");
+const findOne = require("../findOne.helper");
 
 const res = mockResponse();
 const req = mockRequest();
 
-describe("destroy() unit test", () => {
+describe("findOne() unit test", () => {
   it("should validate object type returned for book ", () => {
-    const okMessage = { message: "The book has been deleted" };
-    const notFoundMessage = { message: "Couldn't find that book" };
+    const message = { message: "Couldn't find that book!" };
 
-    const results = destroy(req, res, bookMock, okMessage, notFoundMessage);
+    const results = findOne(req, res, bookMock, message);
     validateObjectDataType(results);
   });
 
-  it("should validate object type returned for readinglist ", () => {
-    const okMessage = {
-      message: "The reading list has been deleted",
-    };
-    const notFoundMessage = { message: "Couldn't find that reading list" };
+  it("should validate object type returned for readingList ", () => {
+    const message = { message: "Couldn't find that reading list!" };
 
-    const results = destroy(
-      req,
-      res,
-      readingListMock,
-      okMessage,
-      notFoundMessage
-    );
+    const results = findOne(req, res, readingListMock, message);
     validateObjectDataType(results);
   });
 });

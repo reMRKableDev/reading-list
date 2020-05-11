@@ -9,7 +9,7 @@
 
 module.exports = (res, message) => {
   return ([results, created]) => {
-    created
+    return created
       ? res.status(200).send(results.dataValues)
       : res.status(409).send(message);
   };

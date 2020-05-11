@@ -13,7 +13,7 @@ const handleError = require("./handleError.helper");
  * @param {object} bookModel
  */
 module.exports = (req, res, bookModel) => {
-  bookModel
+  return bookModel
     .findAll({ where: { readingListId: req.params.id } })
     .then((results) => {
       const dataValues = results.map((element) => element.dataValues);

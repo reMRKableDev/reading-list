@@ -14,7 +14,7 @@ const handleError = require("./handleError.helper");
  * @param {object} message
  */
 module.exports = (req, res, model, message) => {
-  model
+  return model
     .findOne({ where: { id: req.params.id } })
     .then((results) =>
       results === null

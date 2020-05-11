@@ -19,6 +19,11 @@ module.exports = {
     expect(status).toHaveBeenCalledWith(400);
   },
 
+  validateToHaveBeenCalledWithConflict: (status) => {
+    expect(status).not.toHaveBeenCalledWith(200);
+    expect(status).toHaveBeenCalledWith(409);
+  },
+
   validateToHaveBeenCalledWithOk: (status) => {
     expect(status).not.toHaveBeenCalledWith(500);
     expect(status).toHaveBeenCalledWith(200);
@@ -73,6 +78,16 @@ module.exports = {
   validateEmptyPropertyResponseMessage: (received) => {
     expect(received).not.toMatch("dummy");
     expect(received).toMatch("Please fill in all the fields");
+  },
+
+  validateEntityExistsResponseMessage: (received) => {
+    expect(received).not.toMatch("dummy");
+    expect(received).toMatch("This entity already exists");
+  },
+
+  validateCreatedDataValues: (received, expectedDataValues) => {
+    expect(received).not.toEqual({ dummy: "dummy" });
+    expect(received).toEqual(expectedDataValues);
   },
 
   validateControllerUsed: (received, controller) => {

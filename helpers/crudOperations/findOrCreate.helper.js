@@ -37,7 +37,7 @@ const createErrHandler = (res) => {
  * @param {object} message
  */
 module.exports = (res, incomingData, model, message) => {
-  incomingData.name
+  return incomingData.name
     ? model
         .findOrCreate({
           where: { name: incomingData.name },
