@@ -46,7 +46,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.1.0",
     "sequelize": "^6.2.4",
-    "snyk": "^1.359.0"
+    "snyk": "^1.359.1"
   },
   "devDependencies": {
     "eslint": "7.5.0",
