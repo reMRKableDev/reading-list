@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: ESLint Action
-        uses: hallee/eslint-action@1.0.1
+        uses: hallee/eslint-action@1.0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
