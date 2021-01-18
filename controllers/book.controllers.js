@@ -14,7 +14,6 @@
 const db = require("../database/models");
 
 const { book } = db;
-
 const { readingList } = db;
 
 /**
