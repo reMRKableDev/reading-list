@@ -34,7 +34,7 @@
   "keywords": [
     "express",
     "api",
-    "mysql",
+    "postgres",
     "sequelize"
   ],
   "author": "Malcolm R. Kente",
