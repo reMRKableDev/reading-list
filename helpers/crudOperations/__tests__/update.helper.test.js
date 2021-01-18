@@ -30,7 +30,7 @@ describe("destroy() unit test", () => {
     validateObjectDataType(results);
   });
 
-  it("should validate object type returned for readinglist ", () => {
+  it("should validate object type returned for readingList ", () => {
     const okMessage = { message: "The reading list name has been updated" };
     const notFoundMessage = { message: "Couldn't find that reading list" };
 
