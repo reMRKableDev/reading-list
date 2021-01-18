@@ -19,6 +19,7 @@ const app = express();
  */
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/readList", require("./routes/readingList.routes"));
 app.use("/api/books", require("./routes/books.routes"));
