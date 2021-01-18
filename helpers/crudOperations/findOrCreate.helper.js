@@ -12,8 +12,8 @@ const createErrHandler = require("./createErrHandler.helper");
  * @param {object} model
  * @param {object} message
  */
-module.exports = (res, incomingData, model, message) => {
-  return incomingData.name
+module.exports = (res, incomingData, model, message) =>
+  incomingData.name
     ? model
         .findOrCreate({
           where: { name: incomingData.name },
@@ -31,4 +31,3 @@ module.exports = (res, incomingData, model, message) => {
         })
         .then(sendCreatedStatus(res, message))
         .catch(createErrHandler(res));
-};

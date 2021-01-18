@@ -12,8 +12,8 @@ const handleError = require("./handleError.helper");
  * @param {object} res
  * @param {object} bookModel
  */
-module.exports = (req, res, bookModel) => {
-  return bookModel
+module.exports = (req, res, bookModel) =>
+  bookModel
     .findAll({ where: { readingListId: req.params.id } })
     .then((results) => {
       const dataValues = results.map((element) => element.dataValues);
@@ -28,4 +28,3 @@ module.exports = (req, res, bookModel) => {
     .catch((findAllErr) => {
       handleError(res, findAllErr);
     });
-};

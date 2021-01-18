@@ -6,8 +6,6 @@ const handleError = require("./handleError.helper");
 /**
  * @param {object} res
  */
-module.exports = (res) => {
-  return (createErr) => {
-    handleError(res, createErr);
-  };
+module.exports = (res) => (createErr) => {
+  handleError(res, createErr);
 };

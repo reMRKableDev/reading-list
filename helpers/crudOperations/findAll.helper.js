@@ -12,8 +12,8 @@ const handleError = require("./handleError.helper");
  * @param {object} model
  * @param {object} message
  */
-module.exports = (res, model, message) => {
-  return model
+module.exports = (res, model, message) =>
+  model
     .findAll()
     .then((results) => {
       const dataValues = results.map((element) => element.dataValues);
@@ -25,4 +25,3 @@ module.exports = (res, model, message) => {
     .catch((findAllErr) => {
       handleError(res, findAllErr);
     });
-};

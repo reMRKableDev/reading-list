@@ -15,8 +15,8 @@ const handleError = require("./handleError.helper");
  * @param {object} okMessage
  * @param {object} notFoundMessage
  */
-module.exports = (req, res, column, model, okMessage, notFoundMessage) => {
-  return model
+module.exports = (req, res, column, model, okMessage, notFoundMessage) =>
+  model
     .update(column, { where: { id: req.params.id } })
     .then((results) => {
       results[0] === 1
@@ -24,4 +24,3 @@ module.exports = (req, res, column, model, okMessage, notFoundMessage) => {
         : res.status(404).send(notFoundMessage);
     })
     .catch((updateErr) => handleError(res, updateErr));
-};

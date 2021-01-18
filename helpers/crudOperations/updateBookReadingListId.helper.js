@@ -32,8 +32,8 @@ module.exports = (
   bookModel,
   okMessage,
   notFoundMessage
-) => {
-  return readingListModel
+) =>
+  readingListModel
     .findOne({ where: { id: readingListId } })
     .then((results) => {
       if (results === null) {
@@ -52,4 +52,3 @@ module.exports = (
     .catch((findErr) => {
       handleError(res, findErr);
     });
-};
