@@ -11,7 +11,7 @@ const Sequelize = require("sequelize");
  * @const {string} db.config.name         Database name value
  * @const {string} db.config.dialect      Database dialect value
  */
-const { host, user, password, name, dialect } = require("../configs/db.config");
+const { host, user, password, name } = require("../configs/db.config");
 
 /**
  * Connects to the database by creating a Sequelize instance.
@@ -27,7 +27,7 @@ const { host, user, password, name, dialect } = require("../configs/db.config");
  */
 const connector = new Sequelize(name, user, password, {
   host,
-  dialect,
+  dialect: "postgres",
 });
 
 /**

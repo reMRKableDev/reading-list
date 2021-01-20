@@ -24,5 +24,4 @@ module.exports = {
   user: DB_USER,
   password: DB_PASSWORD,
   name: DB_NAME,
-  dialect: DB_DIALECT,
 };
