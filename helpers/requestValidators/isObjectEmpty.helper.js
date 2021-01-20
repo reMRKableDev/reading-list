@@ -6,4 +6,4 @@
  * @param {object} object
  * @returns {boolean}
  */
-module.exports = (object) => Object.keys(object).length === 0;
+module.exports = (incomingObject) => Object.keys(incomingObject).length === 0;

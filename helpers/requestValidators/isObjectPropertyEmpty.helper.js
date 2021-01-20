@@ -6,5 +6,5 @@
  * @param {object} object
  * @returns {boolean}
  */
-module.exports = (object) =>
-  Object.values(object).some((key) => key === null || key === "");
+module.exports = (incomingObject) =>
+  Object.values(incomingObject).some((key) => key === null || key === "");
