@@ -5,16 +5,16 @@ const {
   validateBooleanValues,
 } = require("../../../utils/validators");
 
-describe("isNotNumber helper function unit tests", () => {
+describe("isObjectEmpty helper function unit tests", () => {
   it("should validate incoming module truthiness", () => {
     validateTruthiness(isObjectEmpty);
   });
 
-  it("should validate string type as true", () => {
+  it("should validate empty object as true", () => {
     validateBooleanValues(isObjectEmpty({}), true);
   });
 
-  it("should validate number type as false", () => {
+  it("should validate non-empty object as false", () => {
     validateBooleanValues(isObjectEmpty({ id: 1 }), false);
   });
 });
